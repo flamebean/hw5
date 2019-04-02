@@ -1,0 +1,164 @@
+Fifth1.m
+clear;
+[f,map_f]=imread('C:\Users\15pr\Desktop\D??¡§???t?D (2)\¦Ì¨²5¡ä?¡Á¡Â¨°¦Ì\test2.tif');
+figure
+imshow(f)
+title('?-¨ª?');
+f = single(f);
+PQ =2*size(f);
+F=fft2(f,PQ(1),PQ(2));
+F=fftshift(F);
+ 
+ 
+pinyutuxiang(F);
+title('?-¨ª??¦Ì¨¤?¨°?')
+ H1=batewosi(PQ(1),PQ(2),3,512,1);
+ pinyutuxiang(H1);
+title('¦Ì¨ª¨ª¡§¡ã¨ª¨¬????1??2¡§?¡Â')
+G1=H1.*F;
+g1=ifft2(G1);
+g1=g1(1:size(f,1),1:size(f,2));
+g1=uint8(g1);
+figure;
+imshow(g1)
+title('¦Ì¨ª¨ª¡§¡ã¨ª¨¬????1?¨¢1?')
+Pf=abs(F).^2;
+Pg1=abs(G1).^2;
+Pf=sum(Pf(:));
+Pg1=sum(Pg1(:));
+P=Pg1/Pf
+H2=gaosi(PQ(1),PQ(2),25,1);
+ pinyutuxiang(H2);
+title('¦Ì¨ª¨ª¡§???1??2¡§?¡Â')
+G2=H2.*F;
+g2=ifft2(G2);
+g2=g2(1:size(f,1),1:size(f,2));
+g2=uint8(g2);
+figure;
+imshow(g2)
+title('¦Ì¨ª¨ª¡§???1?¨¢1?')
+Pg2=abs(G2).^2;
+Pg2=sum(Pg2(:));
+P=Pg2/Pf
+function [U,V]=dftuv(M,N)
+u=single(0:(M-1));
+v=single(0:(N-1));
+idx=find(u>M/2);
+u(idx)=u(idx)-M;
+idy=find(v>N/2);
+v(idy)=v(idy)-N;
+[V,U]=meshgrid(v,u);
+end
+function D=hypot1(M,N)
+[U,V]=dftuv(M,N);
+DSQ=sqrt(U.^2+V.^2);
+D=fftshift(DSQ);
+end
+function H=batewosi(M,N,n,D0,type)
+if(type==1)
+D=hypot1(M,N);
+H=(1+D./D0).^(-2*n);
+elseif(type==2)
+    D=hypot1(M,N);
+    H=(1+D0./D).^(-2*n);
+else
+    error('Wrong')
+end
+end
+function H=gaosi(M,N,D0,type)
+if(type==1)
+D=hypot1(M,N);
+H=exp(-(D.^2)/(2*(D0^2)));
+elseif(type==2)
+    D=hypot1(M,N);
+    H=1-exp(-(D.^2)/(2*(D0^2)));
+else
+    error('Wrong')
+end
+end
+function pinyutuxiang(F)
+ 
+ F=abs(F);
+figure
+imshow(F,[]);
+end
+fifth3.m
+clear;
+[f,map_f]=imread('C:\Users\15pr\Desktop\D??¡§???t?D (2)\¦Ì¨²5¡ä?¡Á¡Â¨°¦Ì\test4 copy.bmp');
+figure
+imshow(f)
+title('?-¨ª?');
+f = single(f);
+PQ =2*size(f);
+F=fft2(f,PQ(1),PQ(2));
+F=fftshift(F);
+ 
+ 
+pinyutuxiang(F);
+title('?-¨ª??¦Ì¨¤?¨°?')
+ H1=batewosi(PQ(1),PQ(2),2,35,2);
+ pinyutuxiang(H1);
+title('??¨ª¡§¡ã¨ª¨¬????1??2¡§?¡Â')
+G1=H1.*F;
+g1=ifft2(G1);
+g1=g1(1:size(f,1),1:size(f,2));
+g1=uint8(g1);
+g1=g1*16;
+figure;
+imshow(g1)
+title('??¨ª¡§¡ã¨ª¨¬????1?¨¢1?')
+Pf=abs(F).^2;
+Pg1=abs(G1).^2;
+Pf=sum(Pf(:));
+Pg1=sum(Pg1(:));
+P=Pg1/Pf
+H2=gaosi(PQ(1),PQ(2),25,2);
+ pinyutuxiang(H2);
+title('??¨ª¡§???1??2¡§?¡Â')
+G2=H2.*F;
+g2=ifft2(G2);
+g2=g2(1:size(f,1),1:size(f,2));
+g2=uint8(g2);
+figure;
+imshow(g2)
+title('??¨ª¡§???1?¨¢1?')
+Pg2=abs(G2).^2;
+Pg2=sum(Pg2(:));
+P=Pg2/Pf
+Fifth3.m
+clear;
+[f,map_f]=imread('C:\Users\15pr\Desktop\D??¡§???t?D (2)\¦Ì¨²5¡ä?¡Á¡Â¨°¦Ì\test3_corrupt.pgm');
+figure
+imshow(f)
+title('?-¨ª?');
+f = single(f);
+PQ =2*size(f);
+F=fft2(f,PQ(1),PQ(2));
+F=fftshift(F);
+pinyutuxiang(F);
+ 
+title('?-¨ª??¦Ì¨¤?¨°?')
+D=hypot1(PQ(1),PQ(2));
+H1=1-4*pi*pi*(D.^2);
+pinyutuxiang(H1);
+title('¨¤-??¨¤-?1??2¡§?¡Â')
+G1=H1.*F;
+g1=ifft2(G1);
+g1=g1(1:size(f,1),1:size(f,2));
+g1=uint8(g1);
+figure;
+imshow(g1)
+title('¨¤-??¨¤-?1?¨¢1?')
+k1=1;k2=1;
+D=hypot1(PQ(1),PQ(2));
+H1=gaosi(PQ(1),PQ(2),25,2);
+H1=k1+k2.*H1;
+pinyutuxiang(H1);
+title('UNSHAP')
+G1=H1.*F;
+g1=ifft2(G1);
+g1=g1(1:size(f,1),1:size(f,2));
+g1=uint8(g1);
+figure;
+imshow(g1)
+title('UNSHAP?¨¢1?')
